@@ -1,9 +1,19 @@
 <ion-header no-shadow no-border>
   <ion-navbar color="primary">
     <button ion-button menuToggle >
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu" center></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-segment>
+        <ion-title>Home</ion-title>
+      </ion-segment>
+      <ion-buttons end>
+          <button ion-button icon-only>
+              <ion-icon name="search"></ion-icon>
+            </button>
+        <button ion-button icon-only>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -13,6 +23,8 @@
         <super-tab [root]="myNews" badge="5" title="My News"  id="myNews"></super-tab>
         <super-tab [root]="popular" title="Popular"  id="popular"></super-tab>
         <super-tab [root]="topics" title="Topics"  id="topics"></super-tab>
+
+        
         
     </super-tabs>
 </ion-content>
