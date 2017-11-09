@@ -2,5 +2,7 @@
   "name": "news",
   "app_id": "b1f04f89",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

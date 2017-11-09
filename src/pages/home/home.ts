@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { SuperTabsController, SuperTabs } from 'ionic2-super-tabs';
 
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
