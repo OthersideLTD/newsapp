@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AngularFireAuth } from 'angularfire2/auth';
+import firebase from 'firebase';
 
 // import { HomePage } from '../pages/home/home';
 
@@ -15,15 +17,29 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen,
+    public af : AngularFireAuth,
+    // public navCtrl : NavController
+  ) {
     this.initializeApp();
 
+    const unsubscribe = firebase.auth().onAuthStateChanged( user => {
+      if (!user) {
+        this.navCtrl.push('LoginPage');
+        unsubscribe();
+      } else { 
+        this.rootPage = 'HomePage';
+        unsubscribe();
+      }
+    });
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: 'HomePage' },
-      { title: 'Login', component: 'LoginOnePage' }
+      // { title: 'Home', component: 'HomePage' },
+      { title: 'Login', component: 'LoginPage' }
     ];
-
   }
 
   initializeApp() {
@@ -38,6 +54,11 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.push(page.component);
   }
+
+  get navCtrl(): NavController {
+    return this.app.getRootNav();
+  }
+
 }

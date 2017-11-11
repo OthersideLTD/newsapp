@@ -9,5 +9,8 @@ import { TopStoriesPage } from './top-stories';
   imports: [
     IonicPageModule.forChild(TopStoriesPage),
   ],
+  exports: [
+    TopStoriesPage
+  ]
 })
 export class TopStoriesPageModule {}
