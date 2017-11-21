@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "newsapp1-a9aa9"
+    "default": "newsapp1-a9aa9",
+    "devfest": "newsapp1-a9aa9"
   }
 }

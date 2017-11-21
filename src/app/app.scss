@@ -1,6 +1,7 @@
 // Material Design Sidemenu
 #menu-material {
     .menu-header {
+      min-height: 25%;
       padding: 5px 15px;
       background-image: url('../assets/imgs/material-design-background.jpg');
       background-size: cover;
@@ -13,13 +14,24 @@
         margin-top: 0;
         margin-bottom: 5px;
       }
+      .login-btn{
+        position: absolute;
+        top:20%;
+      }
     }
-    .round{
-        border-radius: 50%;
+    .avatar-container{
+      position: relative;
+    }
+    .avatar-btn{
+      position: absolute;
+      bottom: 10px;
+      left: 38px;
+      background: none!important;
     }
     .user-avatar {
       padding: .5em;
       height: 12vh;
+      border-radius: 50%;
     }
     h3,
     .label,

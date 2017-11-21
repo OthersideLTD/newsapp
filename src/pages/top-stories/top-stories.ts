@@ -20,8 +20,11 @@ export class TopStoriesPage {
   newsArray: Array<any>;
   error: Boolean;
   haveData: Boolean
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public newsapiProvider: NewsApiProvider, public ref: ChangeDetectorRef,
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public newsapiProvider: NewsApiProvider, 
+    public ref: ChangeDetectorRef,
     // public iab: InAppBrowser
   ) {
     this.segment = 'politics';

@@ -20,17 +20,17 @@ export class NewsApiProvider {
   }
 
   getLatestNews() {
-    return this.http.get(`https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=${this.apikey}`)
+    return this.http.get(`https://newsapi.org/v1/articles?source=techcrunch&sortBy=latest&apiKey=${this.apikey}`)
     .map(res => res.json());
   }
 
   getBusinessNews() {
-    return this.http.get(`https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=${this.apikey}`)
+    return this.http.get(`https://newsapi.org/v1/articles?source=ign&sortBy=latest&apiKey=${this.apikey}`)
     .map(res => res.json());
   }
 
   getSportsNews() {
-    return this.http.get(`https://newsapi.org/v1/articles?source=bbc-sport&sortBy=top&apiKey=${this.apikey}`)
+    return this.http.get(`https://newsapi.org/v1/articles?source=espn&sortBy=latest&apiKey=${this.apikey}`)
     .map(res => res.json());
   }
 

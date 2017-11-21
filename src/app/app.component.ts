@@ -1,9 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController } from 'ionic-angular';
+import { Nav, App, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AngularFireAuth } from 'angularfire2/auth';
-import firebase from 'firebase';
+import { AuthProvider } from '../providers/auth/auth';
+
+// import { AngularFireAuth } from 'angularfire2/auth';
+// import firebase from 'firebase';
+
 
 // import { HomePage } from '../pages/home/home';
 
@@ -14,6 +17,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string = 'HomePage';
+  placeHolder: string = "";
+  
 
   pages: Array<{title: string, component: any}>;
 
@@ -21,24 +26,20 @@ export class MyApp {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    public af : AngularFireAuth,
+    public authProvider: AuthProvider,
+    // public af : AngularFireAuth,
+    public app: App
     // public navCtrl : NavController
   ) {
     this.initializeApp();
-
-    const unsubscribe = firebase.auth().onAuthStateChanged( user => {
-      if (!user) {
-        this.navCtrl.push('LoginPage');
-        unsubscribe();
-      } else { 
-        this.rootPage = 'HomePage';
-        unsubscribe();
-      }
-    });
+    this.rootPage = 'HomePage';
+    // this.placeHolder = '';
+    
     // used for an example of ngFor and navigation
     this.pages = [
       // { title: 'Home', component: 'HomePage' },
-      { title: 'Login', component: 'LoginPage' }
+      // { title: 'Login', component: 'LoginPage'},
+      // { title: 'Profile', component: 'ProfilePage'}
     ];
   }
 
@@ -51,10 +52,12 @@ export class MyApp {
     });
   }
 
+  
+
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.push(page.component);
+    this.nav.push(page);
   }
 
   get navCtrl(): NavController {

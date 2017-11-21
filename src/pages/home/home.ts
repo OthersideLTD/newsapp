@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, PopoverController } from 'ionic-angular';
+// import firebase from 'firebase';
 import { SuperTabsController, SuperTabs } from 'ionic2-super-tabs';
+import { PopoverPage } from '../popover/popover'; 
 
 @IonicPage()
 @Component({
@@ -15,11 +17,16 @@ export class HomePage {
   myNews : any = "MyNewsPage";
   popular : any = "PopularPage";
   topics : any = "TopicsPage"
-
+  
 
    
-  constructor(public navCtrl: NavController, public superTabsCtrl: SuperTabsController ) {
+  constructor(
+    public navCtrl: NavController, 
+    public superTabsCtrl: SuperTabsController,
+    public popoverCtrl: PopoverController
+  ) {
     this.superTabsCtrl.showToolbar(true);
+    
   }
   ngAfterViewInit() {
     
@@ -27,6 +34,12 @@ export class HomePage {
       // this.superTabsCtrl.setBadge('topStories', 5);
       // this.superTabsCtrl.showToolbar(true);
     
-    }
-
+  }
+  presentPopover(event) {
+    // console.log(event)
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({
+      ev: event
+    });
+  }
 }

@@ -12,7 +12,8 @@ import { Facebook } from '@ionic-native/facebook';
 import { environment } from '../environments/environment';
 
 import { MyApp } from './app.component';
-// import { HomePage } from '../pages/home/home';
+import { PopoverPage } from '../pages/popover/popover';
+import { DPpopoverPage } from '../pages/d-ppopover/d-ppopover';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +27,8 @@ import { NewsApiProvider } from '../providers/news-api/news-api';
 @NgModule({
   declarations: [
     MyApp,
-    // HomePage
+    PopoverPage,
+    DPpopoverPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { NewsApiProvider } from '../providers/news-api/news-api';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // HomePage
+    PopoverPage,
+    DPpopoverPage 
   ],
   providers: [
     StatusBar,

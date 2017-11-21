@@ -1,18 +1,28 @@
 
   <ion-menu [content]="content" id="menu-material">
     <ion-content>
-      <div class="menu-header">
+      <div class="menu-header" padding>
         <!--material-design-background-->
-        <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/girl-avatar.png'"
-        />
-        <p class="name">Paula Bolliger</p>
-        <p class="e-mail">pbolliger@email.com</p>
+        <div *ngIf="this.authProvider.ifUser" class="avatar-container" >
+          <img menuClose="left"  (click)="openPage('ProfilePage')"   class="user-avatar round" [src]="this.authProvider.currentUser.photoURL" />
+          <button menuClose="left"  (click)="openPage('ProfilePage')"  class="avatar-btn" transparent icon-only>
+            <ion-icon name="settings"></ion-icon>
+          </button>  
+        </div>
+        
+        <p *ngIf="this.authProvider.ifUser" class="name">{{ this.authProvider.currentUser.displayName  }}</p>
+        <p *ngIf="this.authProvider.ifUser" class="e-mail">{{ this.authProvider.currentUser.email }}</p>
+        
+        <br>
+        <button class="login-btn" *ngIf="!this.authProvider.ifUser"  menuClose="left" ion-button (click)="openPage('LoginPage')" >
+          LOGIN
+        </button>
       </div>
       <ion-list no-lines>
-        <button menuClose="left" ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon [name]="p.icon" item-left></ion-icon>
-        {{p.title}}
-      </button>
+        <button  menuClose="left" ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)" >
+          <ion-icon [name]="p.icon" item-left></ion-icon>
+          {{p.title}}
+        </button>
       </ion-list>
     </ion-content>
   </ion-menu>
