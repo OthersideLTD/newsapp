@@ -24,7 +24,7 @@ class User {
 @Injectable()
 export class AuthProvider {
   currentUser : User = {
-    displayName : "Not Logged In!",
+    displayName : "",
     photoURL : "assets/imgs/placeholder2.png",
     uid : "",
     phoneNumber : "",
@@ -106,6 +106,11 @@ export class AuthProvider {
         // this.userDoc.add(
         //   user
         // );
+        firebase.auth().currentUser.sendEmailVerification().then(function() {
+          // Email sent.
+         }, function(error) {
+          // An error happened.
+         });
 
         loading1.dismiss();
 
@@ -192,7 +197,7 @@ export class AuthProvider {
     this.afAuth.auth.signOut();
 
     this.currentUser  = {
-      displayName : "Not Logged In!",
+      displayName : "",
       photoURL : "assets/imgs/placeholder2.png",
       uid : "",
       phoneNumber : "",
@@ -214,37 +219,37 @@ export class AuthProvider {
         unsubscribe();
       } else { 
         this.ifUser = true;
-        this.currentUser = {
-          displayName : user.displayName,
-          photoURL : user.photoURL || "assets/imgs/placeholder2.png",
-          uid : user.uid,
-          phoneNumber : user.phoneNumber,
-          emailVerfified: user.emailVerified,
-          email : user.email,
-          firstName: "",
-          secondName: "",
-          userName: ""
-        };
+        // this.currentUser = {
+        //   displayName : user.displayName,
+        //   photoURL : user.photoURL || "assets/imgs/placeholder2.png",
+        //   uid : user.uid,
+        //   phoneNumber : user.phoneNumber,
+        //   emailVerfified: user.emailVerified,
+        //   email : user.email,
+        //   firstName: "",
+        //   secondName: "",
+        //   userName: ""
+        // };
         
-        console.log(this.currentUser);
+        // console.log(this.currentUser);
         unsubscribe();
         this.getUserDB(this.currentUser.uid);
-        console.log()
       }
     });
   }
 
   getUserDB(uid){
-    this.userDoc = this.afs.collection('users', ref =>{
-      return ref.where('uid', '==', uid)
-    });
+    // this.userDoc = this.afs.collection('users', ref =>{
+    //   return ref.where('uid', '==', uid)
+    // });
+    this.userDoc = this.afs.collection('/users/' + uid);
 
     this.userDB = this.userDoc.valueChanges();
 
     // console.log(this.userDB);
     
     this.userDB.subscribe(userData=>{
-      
+      // console.log(userData);
       this.currentUser = {
         displayName : userData[0].displayName,
         photoURL : userData[0].photoURL || "assets/imgs/placeholder2.png",
@@ -256,7 +261,7 @@ export class AuthProvider {
         secondName: userData[0].secondName,
         userName: userData[0].userName 
       };
-      console.log(this.currentUser);
+      // console.log(this.currentUser);
     });
 
   }
