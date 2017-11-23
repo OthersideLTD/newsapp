@@ -22,7 +22,19 @@ var db = admin.firestore();
 exports.addUserDBSendWelcomeEmail = functions.auth.user().onCreate(event => {
   const user = event.data; // The Firebase user.
   const userRef = db.collection('/users');
+  const success = db.collection('/success');
+  const error = db.collection('/error');
   const uid = user.uid;
+  const email = user.email;
+  
+  if(user.displayName){
+    const userName = user.displayName;
+  }
+
+  if(email){
+    const userName = email.substring(0, email.indexOf("@"));
+  }
+  
 
   var userObj = {
     uid: uid,
@@ -30,10 +42,10 @@ exports.addUserDBSendWelcomeEmail = functions.auth.user().onCreate(event => {
     email : user.email || null,
     photoURL: user.photoURL || null,
     phoneNumber: user.phoneNumber || null ,
-    emailVerified: user.emailVerified || null,
+    emailVerified: user.emailVerified ,
     firstName: null,
     secondName: null,
-    userName: null 
+    userName: userName || null
   };
 
   //add user to db
@@ -49,9 +61,19 @@ exports.addUserDBSendWelcomeEmail = functions.auth.user().onCreate(event => {
             };
   
             return sgMail.send(msg)
-            .then(()=> console.log("Email Sent"))
+            .then((response)=>{
+              success.add({
+                type: "UserAddEmailSent",
+                reponse: response,
+                uid: uid
+              });
+            })
             .catch(err=>{
-              console.log(err);
+              success.add({
+                type: "UserAddEmailSending",
+                error: err,
+                uid: uid
+              })
             });  
           }
           

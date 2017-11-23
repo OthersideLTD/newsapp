@@ -54,6 +54,7 @@ export class AuthProvider {
   }
 
   userDoc : AngularFirestoreCollection<any>;
+  uName : AngularFirestoreCollection<any>;
   
   
 
@@ -106,11 +107,23 @@ export class AuthProvider {
         // this.userDoc.add(
         //   user
         // );
-        firebase.auth().currentUser.sendEmailVerification().then(function() {
-          // Email sent.
-         }, function(error) {
-          // An error happened.
-         });
+        firebase.auth().currentUser.sendEmailVerification()
+        .then(res =>{
+          let resDb = this.afs.collection('/success');
+          resDb.add({
+            type:'EmailVerification',
+            reponse: res,
+            uid: this.afAuth.auth.currentUser.uid
+          });
+        })  
+        .catch(err=>{
+          let resDb = this.afs.collection('/success');
+          resDb.add({
+            type:'EmailVerification',
+            error: err,
+            uid: this.afAuth.auth.currentUser.uid
+          });
+        });
 
         loading1.dismiss();
 
@@ -159,7 +172,7 @@ export class AuthProvider {
       );
 
       if (result) {
-          const loading = this.loadingCtrl.create({
+        const loading = this.loadingCtrl.create({
           duration: 500
         });
 
@@ -251,20 +264,71 @@ export class AuthProvider {
     this.userDB.subscribe(userData=>{
       // console.log(userData);
       this.currentUser = {
-        displayName : userData[0].displayName,
+        displayName : userData[0].displayName || "",
         photoURL : userData[0].photoURL || "assets/imgs/placeholder2.png",
-        uid : userData[0].uid,
-        phoneNumber : userData[0].phoneNumber,
-        emailVerfified: userData[0].emailVerified,
-        email : userData[0].email,
-        firstName: userData[0].firstName,
-        secondName: userData[0].secondName,
-        userName: userData[0].userName 
+        uid : userData[0].uid || "",
+        phoneNumber : userData[0].phoneNumber || "",
+        emailVerfified: userData[0].emailVerified || false,
+        email : userData[0].email || "",
+        firstName: userData[0].firstName || "",
+        secondName: userData[0].secondName || "",
+        userName: userData[0].userName || "" 
       };
       // console.log(this.currentUser);
     });
 
   }
+  saveDets(userData){
+    this.currentUser.displayName = this.currentUser.firstName + " " +this.currentUser.secondName;
+    let loading1 = this.loadingCtrl.create({
+      content:"Loading..."
+    });
+    loading1.present();
+    let ref = "/users/"+this.currentUser.uid;
+    let userDB = this.afs.doc(ref);
+    userDB.update(userData)
+    .then(res =>{
+      loading1.dismiss();
+      loading1.onDidDismiss(() => {
+        const alert = this.alertCtrl.create({
+          title: 'Success',
+          subTitle: 'Details Added!',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      });
+    })
+    .catch(err=>{
+      let resDb = this.afs.collection('/success');
+      resDb.add({
+        type:'EmailVerification',
+        error: err,
+        uid: this.afAuth.auth.currentUser.uid
+      });
+    });
+  }
+
+  // async uNameAvailability(uName,availability,formValid){
+  //   let checkDB = await this.afs.collection('/users', ref =>{
+  //     return ref.where('userName', '==', uName)
+  //   });
+  //   if (checkDB){
+  //     // return (check == 0)
+  //     console.log(checkDB);
+  //   }
+  //   let change = checkDB.valueChanges();
+  //   change.subscribe(result=>{
+  //     if(result.length>0){
+  //       availability = false;
+  //       console.log(availability && formValid);
+  //       formValid = (availability && formValid);
+  //     }else{
+  //       availability = true;
+  //       console.log(availability && formValid);
+  //       formValid = (availability && formValid);
+  //     }
+  //   });
+  // }
 
   // async signupFb(){
   //   // this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());

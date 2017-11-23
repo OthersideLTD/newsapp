@@ -80,7 +80,7 @@ page-profile {
 .avatar-btn{
   position: absolute;
   bottom: 10px;
-  left: 38px;
+  right: 25%;
   background: none!important;
 }
 .user-avatar {
@@ -88,7 +88,7 @@ page-profile {
   height: 30vh;
   border-radius: 50%;
 }
-// ion-icon {
-//   color: #777;
-// }
+ion-icon {
+  color: #777;
+}
 }

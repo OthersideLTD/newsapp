@@ -17,9 +17,9 @@ export class SignupPage {
   email : string = "";
   password : string = "";
   cpassword : string = "";
-  formValid = false;
+  formValid : boolean = false;
   regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-  theEl : any = null;S
+  theEl : any = null;
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -71,11 +71,14 @@ export class SignupPage {
 
   checkValidity(check){
     if(check){
-      this.formValid = true;
+      if(this.formValid){
+        this.formValid = true;
+      }else{
+        this.formValid = false;
+      }
     }else{
       this.formValid = false;
     }
-    
   }
   
   // signupFb(){

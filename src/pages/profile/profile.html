@@ -21,33 +21,43 @@
         <div class="avatar-container" >
           <img (click)="changeDP($event)"   class="user-avatar round" [src]="this.authProvider.currentUser.photoURL" />
           <button (click)="changeDP($event)"  class="avatar-btn" icon-only>
-            <ion-icon name="pen"></ion-icon>
+            <ion-icon name="aperture"></ion-icon>
           </button>  
         </div>
       </ion-col>
     </ion-row>
+    <!-- <ion-row>
+      <ion-col>
+          <button (click)="changeDP($event)"  class="avatar-btn">
+            <ion-icon name="aperture">Change Display Picture</ion-icon>
+          </button>  
+      </ion-col>
+    </ion-row> -->
     <ion-row>
       <ion-col>
         <ion-list  class="no-border">
-            <ion-item>
-              <ion-input placeholder="User Name"   (ngModel)="uName" type="text"></ion-input>
-            </ion-item>
-          <ion-item>
-            <!-- <ion-label>Email</ion-label> -->
-            <ion-input placeholder="Email" (ngModel)="email" type="email" required [pattern]='this.regex' aria-describedby="emailHelp" ></ion-input>
+          <!-- <ion-item>
+            <ion-input placeholder="User Name" (input)=uNameAvailability($event) [(ngModel)]="this.currentUser.userName" type="text" required ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input placeholder="First Name"   (ngModel)="fName" type="text"></ion-input>
+            
+            <ion-input placeholder="Email" [(ngModel)]="this.currentUser.email" type="email" required [pattern]='this.regex' aria-describedby="emailHelp" ></ion-input>
+          </ion-item> -->
+          <ion-item>
+            <ion-input placeholder="First Name" (input)=setTrue()  [(ngModel)]="this.currentUser.firstName" type="text"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input placeholder="Second Name"   (ngModel)="sName" type="text"></ion-input>
+            <ion-input placeholder="Second Name" (input)=setTrue()   [(ngModel)]="this.currentUser.secondName" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="Phone Number: '+2547........'" (input)=setTrue()   [(ngModel)]="this.currentUser.phoneNumber" type="number"></ion-input>
           </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button class="login-button" (click)="save()">Save</button>
+        <button ion-button [disabled]=!formValid class="login-button" (click)="saveDets()">Save</button>
       </ion-col>
     </ion-row>
   </div>
