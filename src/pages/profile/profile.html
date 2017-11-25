@@ -19,8 +19,8 @@
     <ion-row>
       <ion-col>
         <div class="avatar-container" >
-          <img (click)="changeDP($event)"   class="user-avatar round" [src]="this.authProvider.currentUser.photoURL" />
-          <button (click)="changeDP($event)"  class="avatar-btn" icon-only>
+          <img (click)="presentActionSheet($event)"   class="user-avatar round" [src]="this.authProvider.currentUser.photoURL" />
+          <button (click)="presentActionSheet($event)"  class="avatar-btn" icon-only>
             <ion-icon name="aperture"></ion-icon>
           </button>  
         </div>
@@ -38,9 +38,8 @@
         <ion-list  class="no-border">
           <!-- <ion-item>
             <ion-input placeholder="User Name" (input)=uNameAvailability($event) [(ngModel)]="this.currentUser.userName" type="text" required ></ion-input>
-          </ion-item>
-          <ion-item>
-            
+          </ion-item> -->
+          <!-- <ion-item>
             <ion-input placeholder="Email" [(ngModel)]="this.currentUser.email" type="email" required [pattern]='this.regex' aria-describedby="emailHelp" ></ion-input>
           </ion-item> -->
           <ion-item>

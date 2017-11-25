@@ -37,7 +37,7 @@ export class TopStoriesPage {
     if (event._value == 'politics') {
       this.newsapiProvider.getLatestNews().subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           if (data.status === 'ok') {
             this.newsArray = data.articles;
           } else {
@@ -62,7 +62,7 @@ export class TopStoriesPage {
     if (event._value == 'business') {
       this.newsapiProvider.getBusinessNews().subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           if (data.status === 'ok') {
             this.newsArray = data.articles;
           } else {
@@ -87,7 +87,7 @@ export class TopStoriesPage {
     if (event._value == 'sports') {
       this.newsapiProvider.getSportsNews().subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           if (data.status === 'ok') {
             this.newsArray = data.articles;
           } else {
@@ -114,7 +114,7 @@ export class TopStoriesPage {
   ionViewWillEnter() {
     this.newsapiProvider.getLatestNews().subscribe(
       data => {
-        console.log(data);
+        // console.log(data);
         if (data.status === 'ok') {
           this.newsArray = data.articles;
         } else {

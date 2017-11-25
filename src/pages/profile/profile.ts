@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, ActionSheetController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { DPpopoverPage } from '../d-ppopover/d-ppopover';
+// import { DPpopoverPage } from '../d-ppopover/d-ppopover';
+import { PicProvider } from '../../providers/pic/pic';
 
 /**
  * Generated class for the ProfilePage page.
@@ -28,7 +29,9 @@ export class ProfilePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public authProvider: AuthProvider,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public picProvider: PicProvider,
+    public actionSheetCtrl: ActionSheetController
   ) {
     
   }
@@ -37,13 +40,39 @@ export class ProfilePage {
   //   console.log('ionViewDidLoad ProfilePage');
   // }
 
-  changeDP(event) {
-    // console.log(event)
-    let popover = this.popoverCtrl.create(DPpopoverPage);
-    popover.present({
-      ev: event
+  // changeDP(event) {
+  //   // console.log(event)
+  //   let popover = this.popoverCtrl.create(DPpopoverPage);
+  //   popover.present({
+  //     ev: event
+  //   });
+  // }
+
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Load from Library',
+          handler: () => {
+            this.picProvider.takePicture(this.picProvider.camera.PictureSourceType.PHOTOLIBRARY,this.currentUser);
+          }
+        },
+        {
+          text: 'Use Camera',
+          handler: () => {
+            this.picProvider.takePicture(this.picProvider.camera.PictureSourceType.CAMERA,this.currentUser);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
     });
+    actionSheet.present();
   }
+
   setTrue(){
     this.formValid = true;
   }
@@ -51,4 +80,8 @@ export class ProfilePage {
   saveDets(){
     this.authProvider.saveDets(this.currentUser);
   }
+
+  // uNameAvailability(){
+  //   this.authProvider.uNameAvailability(this.currentUser.userName,this.availability,this.formValid);
+  // }
 }

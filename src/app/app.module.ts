@@ -22,6 +22,11 @@ import { SuperTabsModule } from 'ionic2-super-tabs';
 
 import { AuthProvider } from '../providers/auth/auth';
 import { NewsApiProvider } from '../providers/news-api/news-api';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { Camera } from '@ionic-native/camera';
+import { PicProvider } from '../providers/pic/pic';
 
 
 @NgModule({
@@ -54,6 +59,11 @@ import { NewsApiProvider } from '../providers/news-api/news-api';
     Facebook,
     AuthProvider,
     NewsApiProvider,
+    File,
+    Transfer,
+    FilePath,
+    Camera,
+    PicProvider
   ]
 })
 export class AppModule {}

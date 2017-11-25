@@ -16,7 +16,7 @@ export class NewsApiProvider {
 
   constructor(public http: Http) {
 
-    console.log('Hello NewsApiProvider Provider');
+    // console.log('Hello NewsApiProvider Provider');
   }
 
   getLatestNews() {

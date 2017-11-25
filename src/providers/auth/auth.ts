@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AlertController, App, LoadingController, NavController } from 'ionic-angular';
+import { AlertController, ToastController, App, LoadingController, NavController } from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
@@ -40,6 +40,7 @@ export class AuthProvider {
     // public http: Http,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public app: App,
     // public navCtrl: NavController,
     public afs: AngularFirestore,
@@ -299,12 +300,41 @@ export class AuthProvider {
       });
     })
     .catch(err=>{
+      let resDb = this.afs.collection('/error');
+      resDb.add({
+        type:'EmailVerification',
+        error: err,
+        uid: this.afAuth.auth.currentUser.uid
+      });
+      loading1.dismiss();
+      loading1.onDidDismiss(() => {
+        const alert = this.alertCtrl.create({
+          title: 'Failed',
+          subTitle: err,
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      });
+    });
+  }
+
+  updateDp(url, user){
+    user.photoURL = url;
+    console.log(user)
+    let ref = "/users/"+this.currentUser.uid;
+    let userDB = this.afs.doc(ref);
+    userDB.update(user)
+    .then(res =>{
+      this.presentToast('Success')
+    })
+    .catch(err=>{
       let resDb = this.afs.collection('/success');
       resDb.add({
         type:'EmailVerification',
         error: err,
         uid: this.afAuth.auth.currentUser.uid
       });
+      this.presentToast('Error')
     });
   }
 
@@ -314,20 +344,21 @@ export class AuthProvider {
   //   });
   //   if (checkDB){
   //     // return (check == 0)
-  //     console.log(checkDB);
+  //     // console.log(checkDB);
+  //     let change = checkDB.valueChanges();
+  //     change.subscribe(result=>{
+  //       if(result.length>0){
+  //         availability = false;
+  //         formValid = availability;
+  //         console.log(formValid);
+  //       }else{
+  //         availability = true;
+  //         formValid = availability;
+  //         console.log(formValid);
+  //       }
+  //     });
   //   }
-  //   let change = checkDB.valueChanges();
-  //   change.subscribe(result=>{
-  //     if(result.length>0){
-  //       availability = false;
-  //       console.log(availability && formValid);
-  //       formValid = (availability && formValid);
-  //     }else{
-  //       availability = true;
-  //       console.log(availability && formValid);
-  //       formValid = (availability && formValid);
-  //     }
-  //   });
+    
   // }
 
   // async signupFb(){
@@ -363,7 +394,14 @@ export class AuthProvider {
   //     }).catch(err => console.error("Error: ", err));
   //   // this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   // }
-
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
   
 
   get navCtrl(): NavController {
